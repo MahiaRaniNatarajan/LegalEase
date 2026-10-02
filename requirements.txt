@@ -10,3 +10,6 @@ google-generativeai
 python-docx
 fpdf2
 pytest
+pypdf
+python-multipart
+httpx2
