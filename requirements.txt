@@ -1,0 +1,12 @@
+# Pre-filled so nobody has to edit this file during development.
+# If you need a new package, tell Member 5 (integration) to add it.
+fastapi
+uvicorn
+python-dotenv
+requests
+pydantic
+streamlit
+google-generativeai
+python-docx
+fpdf2
+pytest
