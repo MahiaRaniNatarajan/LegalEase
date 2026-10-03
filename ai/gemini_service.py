@@ -200,6 +200,35 @@ Return only the document.
 """
 
         return self._generate_document(prompt)
+def generate_document(details: dict) -> str:
+    """Adapter used by the FastAPI backend to generate supported documents."""
+
+    generator = GeminiDocumentGenerator()
+
+    document_type = details.get("document_type", "").strip().lower()
+
+    data = {
+        "party_one": details.get("party_one", ""),
+        "party_two": details.get("party_two", ""),
+        "jurisdiction": details.get("jurisdiction", "India"),
+        "effective_date": details.get("effective_date"),
+        "details": details.get("details", ""),
+        "tone": details.get("tone", "formal"),
+    }
+
+    if "employment" in document_type:
+        return generator.generate_employment_contract(data)
+
+    if "nda" in document_type or "non-disclosure" in document_type:
+        return generator.generate_nda(data)
+
+    if "lease" in document_type or "rental" in document_type:
+        return generator.generate_lease_agreement(data)
+
+    raise ValueError(
+        "Unsupported document type. Supported types are "
+        "Employment Contract, NDA, and Lease Agreement."
+    )
 
 
 if __name__ == "__main__":
