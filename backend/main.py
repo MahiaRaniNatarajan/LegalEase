@@ -1,21 +1,21 @@
-"""Member 2: FastAPI backend."""
+"""Member 2: FastAPI application setup for LegalEase."""
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
-from ai.gemini_service import simplify_text
+from backend.routes import router
 
-app = FastAPI(title="LegalEase API")
+app = FastAPI(title="LegalEase API", version="1.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # fine for a student project; restrict when deployed
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-class SimplifyRequest(BaseModel):
-    text: str
+app.include_router(router)
 
 
 @app.get("/")
 def health():
     return {"status": "ok"}
-
-
-@app.post("/simplify")
-def simplify(req: SimplifyRequest):
-    return {"result": simplify_text(req.text)}
